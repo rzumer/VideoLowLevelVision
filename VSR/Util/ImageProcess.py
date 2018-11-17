@@ -1,9 +1,9 @@
 """
 Copyright: Wenyi Tang 2017-2018
-Author: Wenyi Tang
-Email: wenyi.tang@intel.com
+Author: Wenyi Tang, Raphaël Zumer
+Email: wenyi.tang@intel.com, rzumer@tebako.net
 Created Date: May 8th 2018
-Updated Date: May 8th 2018
+Updated Date: Nov 16th 2018
 
 Image processing tools
 """
@@ -136,6 +136,15 @@ def imresize(image, scale, size=None, mode=None, resample=None):
         resample = Image.BICUBIC
     return image.resize(size, resample=resample).convert(mode)
 
+def imcompress(image, quality, mode=None):
+    """Image compress to JPEG with a given quality factor"""
+
+    if image.mode in ('RGB', 'BGR'):
+        image = image.convert('YCbCr')
+    mode = image.mode if not mode else mode
+    result = io.BytesIO()
+    image.save(result, 'jpeg', quality=quality)
+    return Image.open(result)
 
 def shrink_to_multiple_scale(image, scale):
     """Crop the `image` to make its width and height multiple of scale factor"""

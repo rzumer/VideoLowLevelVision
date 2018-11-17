@@ -1,9 +1,9 @@
 """
 Copyright: Wenyi Tang 2017-2018
-Author: Wenyi Tang
-Email: wenyi.tang@intel.com
+Author: Wenyi Tang, Raphaël Zumer
+Email: wenyi.tang@intel.com, rzumer@tebako.net
 Created Date: May 8th 2018
-Updated Date: Aug 29th 2018
+Updated Date: Nov 16th 2018
 
 Load frames with specified filter in given directories,
 and provide inheritable API for specific loaders.
@@ -19,7 +19,7 @@ from psutil import virtual_memory
 
 from .VirtualFile import RawFile, ImageFile, _ALLOWED_RAW_FORMAT
 from ..Util.ImageProcess import (
-    crop, imresize, shrink_to_multiple_scale, array_to_img)
+    crop, imresize, imcompress, shrink_to_multiple_scale, array_to_img)
 from ..Util import Utility
 from ..Util.Config import Config
 
@@ -262,10 +262,14 @@ class BasicLoader:
         vf.seek(index)
         frames_hr = [shrink_to_multiple_scale(img, self.scale)
                      if self.modcrop else img for img in vf.read_frame(depth)]
-        frames_lr = [imresize(img,
-                              np.reciprocal(self.scale, dtype='float32'),
-                              resample=self.resample)
-                     for img in frames_hr]
+
+        if self.scale == 1:
+            frames_lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
+        else:
+            frames_lr = [imresize(img,
+                np.reciprocal(self.scale, dtype='float32'),
+                resample=self.resample)
+                for img in frames_hr]
         frames_hr = [img.convert(self.color_format) for img in frames_hr]
         frames_lr = [img.convert(self.color_format) for img in frames_lr]
         return frames_hr, frames_lr, (vf.name, index, vf.frames)

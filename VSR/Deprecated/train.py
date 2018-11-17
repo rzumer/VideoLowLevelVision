@@ -1,8 +1,9 @@
 """
 Copyright: Wenyi Tang 2017-2018
-Author: Wenyi Tang
+Author: Wenyi Tang, Raphaël Zumer
 Email: wenyi.tang@intel.com
 Created Date: May 25th 2018
+Updated Date: Nov 16th 2018
 
 Train models, the examples can be
 found in `run.*` scripts
@@ -28,7 +29,7 @@ def main(*args, **kwargs):
     args = argparse.ArgumentParser()
     args.add_argument('name', type=str, choices=list_supported_models(), help='the model name can be found in model_alias.py')
     # basic options
-    args.add_argument('--scale', type=int, default=4, help='scale factor, default 4')
+    args.add_argument('--scale', type=int, default=4, help='scale factor, default 4, set to 1 for JPEG artifact reduction')
     args.add_argument('--channel', type=int, default=3, help='image channels, default 3')
     args.add_argument('--batch', type=int, default=16, help='training batch size, default 16')
     args.add_argument('--epochs', type=int, default=200, help='training epochs, default 200')
