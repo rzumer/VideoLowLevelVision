@@ -1,5 +1,5 @@
-from VSR.Util.ImageProcess import imread, rgb_to_yuv, array_to_img
-from VSR.Util import Utility as U
+from VLLV.Util.ImageProcess import imread, rgb_to_yuv, array_to_img
+from VLLV.Util import Utility as U
 import tensorflow as tf
 
 tf.enable_eager_execution()

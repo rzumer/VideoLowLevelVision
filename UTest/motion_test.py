@@ -1,8 +1,8 @@
 """
-unit test for VSR.Framework.Motion package
+unit test for VLLV.Framework.Motion package
 """
 
-from VSR.Framework import Motion as M
+from VLLV.Framework import Motion as M
 
 import tensorflow as tf
 import numpy as np

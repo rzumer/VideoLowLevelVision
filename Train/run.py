@@ -9,6 +9,7 @@ Type --helpfull to get full doc.
 """
 
 # Import models in development
+
 try:
     from Exp import *
 except ImportError as ex:
@@ -16,8 +17,8 @@ except ImportError as ex:
 
 import tensorflow as tf
 from importlib import import_module
-from VSR.Tools import Run
-from VSR.Tools import EvalModelCheckpoint, EvalDataDirectory
+from VLLV.Tools import Run
+from VLLV.Tools import EvalModelCheckpoint, EvalDataDirectory
 
 tf.flags.DEFINE_enum("mode", 'run', ('run', 'eval'), "tools to use.")
 FLAGS = tf.flags.FLAGS

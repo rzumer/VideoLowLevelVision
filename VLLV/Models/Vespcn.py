@@ -8,9 +8,9 @@ Real-Time Video Super-Resolution with Spatio-Temporal Networks and Motion Compen
 See https://arxiv.org/abs/1611.05250
 """
 
-from VSR.Framework.SuperResolution import SuperResolution
-from VSR.Framework.Motion import warp, viz_flow
-from VSR.Util.Utility import *
+from VLLV.Framework.SuperResolution import SuperResolution
+from VLLV.Framework.Motion import warp, viz_flow
+from VLLV.Util.Utility import *
 
 import tensorflow as tf
 

@@ -2,9 +2,9 @@
 Unit test for DataLoader.VirtualFile
 """
 
-from VSR.DataLoader.VirtualFile import *
-from VSR.DataLoader.Dataset import *
-from VSR.Util.ImageProcess import img_to_array
+from VLLV.DataLoader.VirtualFile import *
+from VLLV.DataLoader.Dataset import *
+from VLLV.Util.ImageProcess import img_to_array
 
 try:
     DATASETS = load_datasets('./Data/datasets.json')

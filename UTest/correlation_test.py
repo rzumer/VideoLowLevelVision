@@ -1,5 +1,5 @@
 import tensorflow as tf
-from VSR.Util.Utility import _make_vector, _make_displacement, correlation
+from VLLV.Util.Utility import _make_vector, _make_displacement, correlation
 
 
 def test_make_vector():

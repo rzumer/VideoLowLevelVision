@@ -12,10 +12,10 @@ pre-process images in dataset
 import numpy as np
 import tensorflow as tf
 
-from VSR.DataLoader.Dataset import load_datasets
-from VSR.DataLoader.Loader import QuickLoader, BasicLoader
-from VSR.Util import FID
-from VSR.Util.ImageProcess import imresize, array_to_img
+from VLLV.DataLoader.Dataset import load_datasets
+from VLLV.DataLoader.Loader import QuickLoader, BasicLoader
+from VLLV.Util import FID
+from VLLV.Util.ImageProcess import imresize, array_to_img
 
 try:
     DATASETS = load_datasets('./Data/datasets.json')

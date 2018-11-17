@@ -3,9 +3,9 @@ Unit test for DataLoader.Loader
 """
 
 import numpy as np
-from VSR.DataLoader.Loader import BasicLoader, QuickLoader, Select
-from VSR.Util import ImageProcess
-from VSR.DataLoader.Dataset import *
+from VLLV.DataLoader.Loader import BasicLoader, QuickLoader, Select
+from VLLV.Util import ImageProcess
+from VLLV.DataLoader.Dataset import *
 
 try:
     DATASETS = load_datasets('./Data/datasets.yaml')
@@ -85,7 +85,7 @@ def test_benchmark_mp():
 
 
 def test_read_flow():
-    from VSR.Framework.Callbacks import _viz_flow
+    from VLLV.Framework.Callbacks import _viz_flow
     dut = DATASETS['MINICHAIRS']
     config = Config(batch=8, scale=1, depth=2, patch_size=96,
                     steps_per_epoch=100, convert_to='RGB', crop='random')

@@ -9,7 +9,7 @@ Deep Back-Projection Networks For Super-Resolution (CVPR 2018)
 See https://arxiv.org/abs/1803.02735
 """
 
-from VSR.Framework.SuperResolution import SuperResolution
+from VLLV.Framework.SuperResolution import SuperResolution
 
 import tensorflow as tf
 import numpy as np

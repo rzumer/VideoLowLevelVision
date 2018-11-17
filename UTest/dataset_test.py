@@ -1,4 +1,4 @@
-from VSR.DataLoader.Dataset import _glob_absolute_pattern, load_datasets
+from VLLV.DataLoader.Dataset import _glob_absolute_pattern, load_datasets
 
 try:
     DATASETS = load_datasets('./Data/datasets.yaml')

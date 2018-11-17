@@ -13,10 +13,10 @@ import time
 import tqdm
 from pathlib import Path
 
-from VSR.Framework.SuperResolution import SuperResolution
-from VSR.DataLoader.Loader import MpLoader, QuickLoader
-from VSR.DataLoader.Dataset import Dataset
-from VSR.Util.Utility import to_list
+from VLLV.Framework.SuperResolution import SuperResolution
+from VLLV.DataLoader.Loader import MpLoader, QuickLoader
+from VLLV.DataLoader.Dataset import Dataset
+from VLLV.Util.Utility import to_list
 
 
 class Environment:

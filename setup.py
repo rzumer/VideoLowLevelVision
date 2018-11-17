@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-VERSION = '0.5.4'
+VERSION = '0.1.0'
 
 REQUIRED_PACKAGES = [
     'numpy',
@@ -16,13 +16,13 @@ REQUIRED_PACKAGES = [
 
 if __name__ == '__main__':
     setup(
-        name='VSR',
+        name='VLLV',
         version=VERSION,
-        description='Video Super-Resolution Framework',
-        url='https://github.com/LoSealL/VideoSuperResolution',
+        description='Video Low Level Vision Framework',
+        url='https://github.com/rzumer/VideoLowLevelVision',
         packages=find_packages(),
         install_requires=REQUIRED_PACKAGES,
         license='MIT',
-        author='Wenyi Tang',
-        author_email='wenyitang@outlook.com'
+        author='Wenyi Tang, Raphaël Zumer',
+        author_email='wenyitang@outlook.com, rzumer@tebako.net'
     )

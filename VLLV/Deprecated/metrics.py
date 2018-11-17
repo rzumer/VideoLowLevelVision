@@ -13,10 +13,10 @@ from pathlib import Path
 import numpy as np
 import tensorflow as tf
 
-from VSR.DataLoader.Dataset import load_datasets, Dataset
-from VSR.DataLoader.Loader import BasicLoader
-from VSR.Util.ImageProcess import rgb_to_yuv
-from VSR.Util.Config import Config
+from VLLV.DataLoader.Dataset import load_datasets, Dataset
+from VLLV.DataLoader.Loader import BasicLoader
+from VLLV.Util.ImageProcess import rgb_to_yuv
+from VLLV.Util.Config import Config
 
 try:
     DATASETS = load_datasets('./Data/datasets.yaml')

@@ -11,9 +11,9 @@ found in `run.*` scripts
 
 import argparse, json
 
-from VSR.DataLoader.Dataset import load_datasets
-from VSR.Framework.Environment import Environment
-from VSR.Framework.Callbacks import *
+from VLLV.DataLoader.Dataset import load_datasets
+from VLLV.Framework.Environment import Environment
+from VLLV.Framework.Callbacks import *
 
 try:
     from .model_alias import get_model, list_supported_models

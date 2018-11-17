@@ -1,6 +1,6 @@
-from VSR.Util import Utility as U
-from VSR.Util.Config import Config
-from VSR.Framework.Callbacks import save_batch_image
+from VLLV.Util import Utility as U
+from VLLV.Util.Config import Config
+from VLLV.Framework.Callbacks import save_batch_image
 
 TEST_STR = ('1.3', '2kb', '3 mb', '4GB', '9Zb', '2.3pB')
 ANS = (1.3, 2048.0, 3145728.0, 4294967296.0, 10625324586456701730816.0,

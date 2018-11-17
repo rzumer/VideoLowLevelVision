@@ -1,5 +1,5 @@
-from VSR.DataLoader.Dataset import Dataset
-from VSR.DataLoader.Loader import BatchLoader
+from VLLV.DataLoader.Dataset import Dataset
+from VLLV.DataLoader.Loader import BatchLoader
 import numpy as np
 import os
 import tensorflow as tf

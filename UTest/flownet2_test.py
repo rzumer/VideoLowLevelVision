@@ -16,8 +16,8 @@ import tensorflow as tf
 import numpy as np
 
 from PIL import Image
-from VSR.Framework.Callbacks import _viz_flow
-from VSR.Framework.Motion import warp
+from VLLV.Framework.Callbacks import _viz_flow
+from VLLV.Framework.Motion import warp
 
 checkpoint = '/home/intel/works/flownet2-tf/checkpoints/FlowNet2/flownet-2.ckpt-0'
 IMG1 = 'data/flying_chair/img0.png'
