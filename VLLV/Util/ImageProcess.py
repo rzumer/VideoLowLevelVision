@@ -136,6 +136,7 @@ def imresize(image, scale, size=None, mode=None, resample=None):
         resample = Image.BICUBIC
     return image.resize(size, resample=resample).convert(mode)
 
+
 def imcompress(image, quality, mode=None):
     """Image compress to JPEG with a given quality factor"""
 
@@ -144,7 +145,8 @@ def imcompress(image, quality, mode=None):
     mode = image.mode if not mode else mode
     result = io.BytesIO()
     image.save(result, 'jpeg', quality=quality)
-    return Image.open(result)
+    return imread(result, mode)
+
 
 def shrink_to_multiple_scale(image, scale):
     """Crop the `image` to make its width and height multiple of scale factor"""
