@@ -1,4 +1,4 @@
-from VSR.Util.Utility import Vgg
+from VLLV.Util.Utility import Vgg
 from PIL import Image
 import tensorflow as tf
 import numpy as np

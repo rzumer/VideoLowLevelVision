@@ -7,10 +7,10 @@ Created Date: Dec 20th 2018
 Single Image Super-Resolution with Feature Discrimination (ECCV 2018)
 See http://openaccess.thecvf.com/content_ECCV_2018/papers/Seong-Jin_Park_SRFeat_Single_Image_ECCV_2018_paper.pdf
 """
-from VSR.Framework.SuperResolution import SuperResolution
-from VSR.Framework.GAN import loss_bce_gan
-from VSR.Arch import Discriminator
-from VSR.Util.Utility import Vgg, prelu
+from VLLV.Framework.SuperResolution import SuperResolution
+from VLLV.Framework.GAN import loss_bce_gan
+from VLLV.Arch import Discriminator
+from VLLV.Util.Utility import Vgg, prelu
 
 import tensorflow as tf
 
