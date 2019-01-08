@@ -15,6 +15,7 @@ import numpy as np
 import tensorflow as tf
 import threading as th
 import copy
+import random
 from psutil import virtual_memory
 
 from .VirtualFile import RawFile, ImageFile, _ALLOWED_RAW_FORMAT
@@ -199,7 +200,11 @@ class BasicLoader:
                         frames_hr = [array_to_img(hr, 'RGB')]
                     else:
                         frames_hr = [array_to_img(x, 'RGB') for x in hr]
-                    frames_lr = [imresize(img,
+
+                    if all(scale == 1 for scale in self.scale):
+                        frames_lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
+                    else:
+                        frames_lr = [imresize(img,
                                           np.reciprocal(self.scale,
                                                         dtype='float32'),
                                           resample=self.resample)
@@ -263,7 +268,7 @@ class BasicLoader:
         frames_hr = [shrink_to_multiple_scale(img, self.scale)
                      if self.modcrop else img for img in vf.read_frame(depth)]
 
-        if self.scale == 1:
+        if all(scale == 1 for scale in self.scale):
             frames_lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
         else:
             frames_lr = [imresize(img,
