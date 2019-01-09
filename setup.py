@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 REQUIRED_PACKAGES = [
     'numpy',
@@ -11,6 +11,8 @@ REQUIRED_PACKAGES = [
     'PyYAML',
     'psutil',
     'tqdm',
+    'h5py',
+    'scipy',
     'easydict >= 1.9',
 ]
 

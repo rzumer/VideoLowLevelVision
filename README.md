@@ -13,17 +13,17 @@ All these models are implemented in **ONE** framework.
 |SRCNN|[ECCV14](https://arxiv.org/abs/1501.00092)|-, [Keras](https://github.com/qobilidop/srcnn)|Y| Kaiming |√|
 |RAISR|[arXiv](https://arxiv.org/abs/1606.01299)|-|N| Google, Pixel 3 ||
 |ESPCN|[CVPR16](https://arxiv.org/abs/1609.05158)|-, [Keras](https://github.com/qobilidop/srcnn)|Y| Real time |√|
-|VDSR|[CVPR16](https://arxiv.org/abs/1511.04587)|-|Y| Deep, Residual ||
+|VDSR|[CVPR16](https://arxiv.org/abs/1511.04587)|-|Y| Deep, Residual |√|
 |DRCN|[CVPR16](https://arxiv.org/abs/1511.04491)|-|Y| Recurrent ||
 |DRRN|[CVPR17](http://cvlab.cse.msu.edu/pdfs/Tai_Yang_Liu_CVPR2017.pdf)|[Caffe](https://github.com/tyshiwo/DRRN_CVPR17), [PyTorch](https://github.com/jt827859032/DRRN-pytorch)|Y| Recurrent ||
 |LapSRN|[CVPR17](http://vllab.ucmerced.edu/wlai24/LapSRN/)|[Matlab](https://github.com/phoenix104104/LapSRN)|Y| Huber loss ||
 |EDSR|[CVPR17](https://arxiv.org/abs/1707.02921)|-|Y| NTIRE17 Champion |√|
 |SRGAN|[CVPR17](https://arxiv.org/abs/1609.04802)|-|Y| 1st proposed GAN ||
-|VESPCN|[CVPR17](https://arxiv.org/abs/1611.05250)|-|Y| VideoSR ||
+|VESPCN|[CVPR17](https://arxiv.org/abs/1611.05250)|-|Y| VideoSR |√|
 |MemNet|[ICCV17](https://arxiv.org/abs/1708.02209)|[Caffe](https://github.com/tyshiwo/MemNet)|Y|||
-|SRDenseNet|[ICCV17](http://openaccess.thecvf.com/content_ICCV_2017/papers/Tong_Image_Super-Resolution_Using_ICCV_2017_paper.pdf)|-, [PyTorch](https://github.com/wxywhu/SRDenseNet-pytorch)|Y| Dense ||
+|SRDenseNet|[ICCV17](http://openaccess.thecvf.com/content_ICCV_2017/papers/Tong_Image_Super-Resolution_Using_ICCV_2017_paper.pdf)|-, [PyTorch](https://github.com/wxywhu/SRDenseNet-pytorch)|Y| Dense |√|
 |SPMC|[ICCV17](https://arxiv.org/abs/1704.02738)|[Tensorflow](https://github.com/jiangsutx/SPMC_VideoSR)|N| VideoSR ||
-|DnCNN|[TIP17](http://ieeexplore.ieee.org/document/7839189/)|[Matlab](https://github.com/cszn/DnCNN)|Y| Denoise ||
+|DnCNN|[TIP17](http://ieeexplore.ieee.org/document/7839189/)|[Matlab](https://github.com/cszn/DnCNN)|Y| Denoise |√|
 |DCSCN|[arXiv](https://arxiv.org/abs/1707.05425)|[Tensorflow](https://github.com/jiny2001/dcscn-super-resolution)|Y|||
 |IDN|[CVPR18](https://arxiv.org/abs/1803.09454)|[Caffe](https://github.com/Zheng222/IDN-Caffe)|Y| Fast ||
 |RDN|[CVPR18](https://arxiv.org/abs/1802.08797)|[Torch](https://github.com/yulunzhang/RDN)|Y| Deep, BI-BD-DN ||
@@ -32,9 +32,9 @@ All these models are implemented in **ONE** framework.
 |ZSSR|[CVPR18](http://www.wisdom.weizmann.ac.il/~vision/zssr/)|[Tensorflow](https://github.com/assafshocher/ZSSR)|N| Zero-shot ||
 |FRVSR|[CVPR18](https://arxiv.org/abs/1801.04590)|[PDF](https://github.com/msmsajjadi/FRVSR)|T| VideoSR ||
 |DUF|[CVPR18](http://openaccess.thecvf.com/content_cvpr_2018/papers/Jo_Deep_Video_Super-Resolution_CVPR_2018_paper.pdf)|[Tensorflow](https://github.com/yhjo09/VSR-DUF)|T| VideoSR ||
-|CARN|[ECCV18](https://arxiv.org/abs/1803.08664)|[PyTorch](https://github.com/nmhkahn/CARN-pytorch)|Y| Fast ||
+|CARN|[ECCV18](https://arxiv.org/abs/1803.08664)|[PyTorch](https://github.com/nmhkahn/CARN-pytorch)|Y| Fast |√|
 |RCAN|[ECCV18](https://arxiv.org/abs/1807.02758)|[PyTorch](https://github.com/yulunzhang/RCAN)|Y| Deep, BI-BD-DN ||
-|MSRN|[ECCV18](http://openaccess.thecvf.com/content_ECCV_2018/papers/Juncheng_Li_Multi-scale_Residual_Network_ECCV_2018_paper.pdf)|[PyTorch](https://github.com/MIVRC/MSRN-PyTorch)|Y|||
+|MSRN|[ECCV18](http://openaccess.thecvf.com/content_ECCV_2018/papers/Juncheng_Li_Multi-scale_Residual_Network_ECCV_2018_paper.pdf)|[PyTorch](https://github.com/MIVRC/MSRN-PyTorch)|Y| |√|
 |SRFeat|[ECCV18](http://openaccess.thecvf.com/content_ECCV_2018/papers/Seong-Jin_Park_SRFeat_Single_Image_ECCV_2018_paper.pdf)|[Tensorflow](https://github.com/HyeongseokSon1/SRFeat)|Y| GAN ||
 |NLRN|[NIPS18](https://papers.nips.cc/paper/7439-non-local-recurrent-network-for-image-restoration.pdf)|[Tensorflow](https://github.com/Ding-Liu/NLRN)|T| Non-local, Recurrent ||
 |SRCliqueNet|[NIPS18](https://arxiv.org/abs/1809.04508)|-|N| Wavelet ||
@@ -62,11 +62,13 @@ All these models are implemented in **ONE** framework.
 |DIV2K|Train/Val|900|[website](https://data.vision.ee.ethz.ch/cvl/DIV2K/)|NTIRE17|
 |Waterloo|Train|4741|[website](https://ece.uwaterloo.ca/~k29ma/exploration/)|-|
 |MCL-V|Train|12|[website](http://mcl.usc.edu/mcl-v-database/)|12 videos|
-|GOPRO|Train/Val|33|[website](https://github.com/SeungjunNah/DeepDeblur_release)|33 videos|
+|GOPRO|Train/Val|33|[website](https://github.com/SeungjunNah/DeepDeblur_release)|33 videos, deblur|
 |CelebA|Train|202599|[website](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)|Human faces|
 |Sintel|Train/Val|35|[website](http://sintel.is.tue.mpg.de/downloads)|Optical flow|
 |FlyingChairs|Train|22872|[website](https://lmb.informatik.uni-freiburg.de/resources/datasets/FlyingChairs.en.html#flyingchairs)|Optical flow|
-|DND|Train/Val|50|[website](https://noise.visinf.tu-darmstadt.de/)|Real noisy photos|
+|DND|Test|50|[website](https://noise.visinf.tu-darmstadt.de/)|Real noisy photos|
+|RENOIR|Train|120|[website](http://ani.stat.fsu.edu/~abarbu/Renoir.html)|Real noisy photos|
+|NC|Test|60|[website](http://demo.ipol.im/demo/125/)|Noisy photos|
 
 Other open datasets:
 [Kaggle](https://www.kaggle.com/datasets)
@@ -90,6 +92,10 @@ pip install -e .
 python prepare_data.py --download_dir=/tmp/downloads --data_dir=/mnt/data/datasets --weights_dir=./Results
 ```
 
+__PS__: To download google drive shared files, `google-api-python-client`, `oauth2client` are required.
+You also need to authorize to get to access to drive files.
+
+__PPS__: `.rar` files are not able to decompressed in the script.
 
 ### How to use
 To train/test/infer any model in [VSR.Models](./VSR/Models/__init__.py), please see [README](./Train/README.md).

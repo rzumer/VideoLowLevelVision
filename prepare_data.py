@@ -15,8 +15,11 @@ import tarfile
 import zipfile
 import argparse
 import sys
+import re
 from pathlib import Path
 from tensorflow.keras import utils as kutils
+
+from VLLV.Tools.GoogleDriveDownloader import drive_download
 
 # For now VSR requires python>=3.5
 if sys.version_info.major == 3 and sys.version_info.minor < 5:
@@ -40,8 +43,10 @@ DATASETS = {
     'VID4.zip': 'https://people.csail.mit.edu/celiu/CVPR2011/videoSR.zip',
     'BSD300.tgz': 'https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/segbench/BSDS300-images.tgz',
     'BSD500.tgz': 'http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_bsds500.tgz',
-    # '91image.rar': 'http://www.ifp.illinois.edu/~jyang29/codes/ScSR.rar',
-    # 'waterloo.rar': 'http://ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar'
+    '91image.rar': 'http://www.ifp.illinois.edu/~jyang29/codes/ScSR.rar',
+    'waterloo.rar': 'http://ivc.uwaterloo.ca/database/WaterlooExploration/exploration_database_and_code.rar',
+    'GOPRO_Large.zip': '1H0PIXvJH4c40pk7ou6nAwoxuR4Qh_Sa2',
+    'MCL-V.rar': '1z41hdqR-bqNLcUWllPePzkfQW-I_A9ny',
 }
 WEIGHTS = {
     'srcnn.tar.gz': 'https://github.com/LoSealL/Model/releases/download/srcnn_sc4_1/srcnn.tar.gz',
@@ -49,6 +54,23 @@ WEIGHTS = {
     'edsr.zip': 'https://github.com/LoSealL/Model/releases/download/edsr/edsr.zip',
     'dncnn.zip': 'https://github.com/LoSealL/Model/releases/download/DnCNN/dncnn.zip',
     'carn.zip': 'https://github.com/LoSealL/Model/releases/download/CARN/carn.zip',
+    # Google Drive File ID.
+    # If you can't download from this file, visit url https://drive.google.com/open?id=<id>
+    # paste the file id into position <id>.
+    'srdensenet.zip': '1aXAfRqZieY6mTfZUnErG84-9NfkQSeDw',
+    'vdsr.zip': '1hW5YDxXpmjO2IfAy8f29O7yf1M3fPIg1',
+    'msrn.zip': '1A0LoY3oB_VnArP3GzI1ILUNJbLAEjdtJ',
+    'vespcn.zip': '19u4YpsyThxW5dv4fhpMj7c5gZeEDKthm',
+    'gangp.zip': '1UHiSLjaU5Yeiltl9cQsR3-EKta3yt0dI',
+    'lsgan.zip': '15dsubMpvTeCoSCIfPCcKjhnk7UMyuljt',
+    'ragan.zip': '1HWR2m3cFH-Fze1zkioj20ugDXRmjGQEH',
+    'ragangp.zip': '1lf3Rj3Lk1qISbQiIQiSJt03DVV5pp5Ml',
+    'ralsgan.zip': '180qrnH8_MdFvLlSl5MSP8sQCPLbbevsr',
+    'rgan.zip': '1ZwCB1Fa9UIybOq1SfgOeBKJ8g63KMYEK',
+    'rgangp.zip': '1QSBVscdfJvf_dMRRiBA_lCq39gX9mDZJ',
+    'rlsgan.zip': '1siDKxGvlb0p2E2_EmAJoT8knFMuQRivj',
+    'sgan.zip': '1spClB26QJNQEio_DktobQq9ALT-PHfg3',
+    'wgangp.zip': '1jyngiCyU1Js4DH5yUhug4gTPy2bQoETO',
 }
 
 
@@ -60,7 +82,18 @@ def get_input(question):
     return ans
 
 
-def user_input(name, defaults=False):
+def matches(str1, pattern):
+    if not pattern:
+        return str1
+    ret = re.match(pattern, str1)
+    if ret:
+        return str1
+
+
+def user_input(name, defaults=False, pattern=None):
+    name = matches(name, pattern)
+    if not name:
+        return
     question = 'Do you wish to download {}? '.format(name)
     if defaults:
         question += '[Y/n] '
@@ -106,6 +139,8 @@ def main():
                         default=_DEFAULT_WEIGHTS_DIR,
                         help="Specify weights extracted directory.")
     parser.add_argument("--yes_to_all", type=bool, default=False)
+    parser.add_argument("--filter", type=str, default=None,
+                        help="an re pattern to filter candidates.")
     args = parser.parse_args()
     # make work dir
     Path(args.download_dir).mkdir(exist_ok=True, parents=True)
@@ -121,14 +156,19 @@ def main():
 
     need_to_download = {}
     for k, v in get_leaf(args.data_dir, DATASETS):
-        if user_input(k.stem, args.yes_to_all):
+        if user_input(k.stem, args.yes_to_all, args.filter):
             need_to_download[k] = v
     for k, v in get_leaf(args.weights_dir, WEIGHTS):
-        if user_input(k.stem, args.yes_to_all):
+        if user_input(k.stem, args.yes_to_all, args.filter):
             need_to_download[k] = v
     need_to_extract = {}
     for k, v in need_to_download.items():
-        need_to_extract[k] = (k.parent, download(k.name, v, args.download_dir))
+        if v[:4] == 'http':
+            need_to_extract[k] = (k.parent,
+                                  download(k.name, v, args.download_dir))
+        else:
+            need_to_extract[k] = (k.parent,
+                                  drive_download(k.name, v, args.download_dir))
     for k, v in need_to_extract.values():
         if v is None:
             continue
@@ -146,6 +186,8 @@ def main():
                 except (tarfile.TarError, RuntimeError, KeyboardInterrupt):
                     # TBD...
                     pass
+        else:
+            print("[WARN] {} have to be uncompressed manually.".format(v))
 
 
 if __name__ == '__main__':
