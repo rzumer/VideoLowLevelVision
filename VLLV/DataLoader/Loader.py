@@ -1,17 +1,9 @@
 """
-<<<<<<< HEAD:VLLV/DataLoader/Loader.py
-Copyright: Wenyi Tang 2017-2018
+Copyright: Wenyi Tang 2017-2019
 Author: Wenyi Tang, Raphaël Zumer
 Email: wenyi.tang@intel.com, rzumer@tebako.net
 Created Date: May 8th 2018
-Updated Date: Nov 16th 2018
-=======
-Copyright: Wenyi Tang 2017-2019
-Author: Wenyi Tang
-Email: wenyi.tang@intel.com
-Created Date: May 8th 2018
 Updated Date: Jan 9th 2019
->>>>>>> upstream/master:VSR/DataLoader/Loader.py
 
 Load frames with specified filter in given directories,
 and provide inheritable API for specific loaders.
@@ -49,6 +41,33 @@ def _augment(image, op):
     if op[2]:
         image = np.flipud(image)
     return image
+
+
+def _lr_file_from_hr(vf):
+    vf_lr = copy.deepcopy(vf)
+    new_path = ''
+    head, tail = os.path.split(vf_lr.path)
+
+    if vf.path.is_file():
+        fname = head
+        head, tail = os.path.split(tail)
+        new_path = os.path.join(tail, 'lr')
+        new_path = os.path.join(new_path, fname)
+        vf_lr.path = new_path
+        vf_lr.file = [new_path]
+        vf_lr.length[new_path.name] = new_path.stat().st_size
+    else:
+        new_path = os.path.join(tail, 'lr')
+        vf_lr.path = new_path
+        for _file in vf_lr.file:
+            new_path = _file
+            head, tail = os.path.split(_file)
+            if tail != '':
+                fname = head
+                head, tail = os.path.split(tail)
+                new_path = os.path.join(tail, 'lr')
+                new_path = os.path.join(new_path, fname)
+            vf_lr.length[_file.name] = new_path.stat().st_size
 
 
 class Select:
@@ -309,6 +328,12 @@ class BasicLoader:
                      if self.modcrop else img for img in vf.read_frame(depth)]
 
         if all(scale == 1 for scale in self.scale):
+            # fetch from pre-processed LR files
+            vf_lr = _lr_file_from_hr(vf)
+            frames_lr = [shrink_to_multiple_scale(img, self.scale)
+                        if self.modcrop else img for img in vf_lr.read_frame(depth) ]
+        elif all(scale == 1 for scale in self.scale):
+            # process LR frames on the fly
             frames_lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
         else:
             frames_lr = [imresize(img,
