@@ -4,22 +4,23 @@
 
 # changelog 2019-1-9:
 # - `Root` will affect absolute url in `Dataset` as well
----
 # Add root dir to dataset
 # In current version, Root only affects members in "Path" and "Path_Tracked"
 Root:
-  /mnt/data/datasets/
+  /home/rzumer/data/
 #  c:/work/datasets
 Path:
+  DERF: DERF/*.yuv
+  DERF-Val: DERF/val/*.yuv
   BSD100: BSD100_SR/image_SRF_2/*HR.*
   BSD500-Train: BSR_bsds500/BSR/BSDS500/data/images/train/*.jpg
   BSD500-Val: BSR_bsds500/BSR/BSDS500/data/images/val/*.jpg
   BSD500-Test: BSR_bsds500/BSR/BSDS500/data/images/test/*.jpg
-  91-IMAGE: 91-image/
+  91-IMAGE: 91-image/Data/Training
   IMAGENET: Imagenet/20180122/*.jpg
   GOPRO-Train: GOPRO_Large_all/train
   GOPRO-Val: GOPRO_Large_all/test
-  MCL-V: MCL-V/train/*.yuv
+  MCL-V: MCL-V/raw/train/*.yuv
   WATERLOO: exploration_database_and_code/pristine_images/
   DIV2K-Train: DIV2K/DIV2K_train_HR/
   DIV2K-Val: DIV2K/DIV2K_valid_HR/
@@ -38,8 +39,8 @@ Path:
 Path_Tracked:
   URBAN100: Urban100_SR/image_SRF_4/*HR.*
   SUNHAY80: SunHays80_SR/image_SRF_8/*HR.*
-  SET5: Set5_SR/Set5/image_SRF_4/*HR.*
-  SET14: Set14_SR/Set14/image_SRF_4/*HR.*
+  SET5: Set5_SR/image_SRF_4/*HR.*
+  SET14: Set14_SR/image_SRF_4/*HR.*
   PIRM-SelfTest: PIRM/PIRM_Self-Val_set/LR
   PIRM-Test: PIRM/PIRM_Test/LR
   VID4-HR: vid4/original/
@@ -50,6 +51,10 @@ Dataset:
     train: []
     val: []
     test: []
+
+  DERF:
+    train: DERF
+    val: DERF-Val
 
   BSD:  # Combined BSD100 and BSD500 data
     train: [BSD100, BSD500-Train]  # collected in array

@@ -1,7 +1,6 @@
----
 vdsr:
   layers: 20
   filters: 64
   custom_upsample: false
-  scale: 4
+  scale: 1
   channel: 1
