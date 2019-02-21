@@ -70,6 +70,7 @@ def _lr_file_from_hr(vf):
                 new_path = os.path.join(tail, 'lr')
                 new_path = Path(os.path.join(new_path, fname))
             vf_lr.length[_file.name] = new_path.stat().st_size
+    return vf_lr
 
 
 class Select:
