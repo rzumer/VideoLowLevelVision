@@ -51,23 +51,22 @@ def _lr_file_from_hr(vf):
     head, tail = os.path.split(vf_lr.path)
 
     if vf.path.is_file():
-        fname = head
-        head, tail = os.path.split(tail)
-        new_path = os.path.join(tail, 'lr')
+        fname = tail
+        new_path = os.path.join(head, 'lr')
         new_path = Path(os.path.join(new_path, fname))
         vf_lr.path = new_path
         vf_lr.file = [new_path]
         vf_lr.length[new_path.name] = new_path.stat().st_size
     else:
-        new_path = os.path.join(tail, 'lr')
+        new_path = os.path.join(head, 'lr')
         vf_lr.path = Path(new_path)
         for _file in vf_lr.file:
             new_path = _file
             head, tail = os.path.split(_file)
             if tail != '':
                 fname = head
-                head, tail = os.path.split(tail)
-                new_path = os.path.join(tail, 'lr')
+                head, tail = os.path.split(head)
+                new_path = os.path.join(head, 'lr')
                 new_path = Path(os.path.join(new_path, fname))
             vf_lr.length[_file.name] = new_path.stat().st_size
     return vf_lr
