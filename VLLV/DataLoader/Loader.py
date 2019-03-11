@@ -46,18 +46,21 @@ def _augment(image, op):
 
 
 def _lr_file_from_hr(vf):
-    vf_lr = copy.copy(vf)
+    #vf_lr = copy.copy(vf)
     new_path = ''
-    head, tail = os.path.split(vf_lr.path)
+    head, tail = os.path.split(vf.path)
 
     if vf.path.is_file():
         fname = tail
         new_path = os.path.join(head, 'lr')
         new_path = Path(os.path.join(new_path, fname))
-        vf_lr.path = new_path
-        vf_lr.file = [new_path]
-        vf_lr.length[new_path.name] = new_path.stat().st_size
+        vf_lr = RawFile(new_path, 'YV12', (1920, 1080))
+        #vf_lr.path = new_path
+        #vf_lr.file = [new_path]
+        #vf_lr.length[new_path.name] = new_path.stat().st_size
     else:
+        exit(1)
+        '''
         new_path = os.path.join(head, 'lr')
         vf_lr.path = Path(new_path)
         for _file in vf_lr.file:
@@ -69,6 +72,7 @@ def _lr_file_from_hr(vf):
                 new_path = os.path.join(head, 'lr')
                 new_path = Path(os.path.join(new_path, fname))
             vf_lr.length[_file.name] = new_path.stat().st_size
+        '''
     return vf_lr
 
 
