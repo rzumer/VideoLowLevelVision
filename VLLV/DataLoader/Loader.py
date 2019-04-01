@@ -328,14 +328,14 @@ class BasicLoader:
             s[self.file_objects[index]] += 1
         return s
 
-    def _vf_gen_lr_hr_pair(self, vf, depth, index):
+    def _vf_gen_lr_hr_pair(self, vf, vf_lr, depth, index):
         vf.seek(index)
         frames_hr = [shrink_to_multiple_scale(img, self.scale)
                      if self.modcrop else img for img in vf.read_frame(depth)]
 
-        if all(scale == 1 for scale in self.scale):
+        if vf_lr is not None:
             # fetch from pre-processed LR files
-            vf_lr = _lr_file_from_hr(vf)
+            vf_lr.seek(index)
             frames_lr = [shrink_to_multiple_scale(img, self.scale)
                         if self.modcrop else img for img in vf_lr.read_frame(depth) ]
         elif all(scale == 1 for scale in self.scale):
@@ -369,6 +369,10 @@ class BasicLoader:
         """
         assert isinstance(vf, (RawFile, ImageFile))
 
+        vf_lr = None
+        if all(scale == 1 for scale in self.scale):
+            vf_lr = _lr_file_from_hr(vf)
+
         tf.logging.debug('Prefetching ' + vf.name)
         depth = self.depth
         # read all frames if depth is set to -1
@@ -381,7 +385,7 @@ class BasicLoader:
             if self.flow:
                 frames.append(self._vf_gen_flow_img_pair(vf, depth, i))
             else:
-                frames.append(self._vf_gen_lr_hr_pair(vf, depth, i))
+                frames.append(self._vf_gen_lr_hr_pair(vf, vf_lr, depth, i))
         vf.reopen()  # necessary, rewind the read pointer
         return frames
 
