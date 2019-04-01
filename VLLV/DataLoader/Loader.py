@@ -54,7 +54,8 @@ def _lr_file_from_hr(vf):
         fname = tail
         new_path = os.path.join(head, 'lr')
         new_path = Path(os.path.join(new_path, fname))
-        vf_lr = RawFile(new_path, 'YV12', (1920, 1080))
+        #vf_lr = RawFile(new_path, 'YV12', (1920, 1080))
+        vf_lr = RawFile(new_path, 'YV12', vf.size)
         #vf_lr.path = new_path
         #vf_lr.file = [new_path]
         #vf_lr.length[new_path.name] = new_path.stat().st_size
@@ -73,6 +74,7 @@ def _lr_file_from_hr(vf):
                 new_path = Path(os.path.join(new_path, fname))
             vf_lr.length[_file.name] = new_path.stat().st_size
         '''
+    #bp()
     return vf_lr
 
 
@@ -267,6 +269,8 @@ class BasicLoader:
                         frames_hr = [array_to_img(x, 'RGB') for x in hr]
 
                     if all(scale == 1 for scale in self.scale):
+                        exit(1)
+                    elif all(scale == 1 for scale in self.scale):
                         frames_lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
                     else:
                         frames_lr = [imresize(img,
@@ -333,7 +337,7 @@ class BasicLoader:
         frames_hr = [shrink_to_multiple_scale(img, self.scale)
                      if self.modcrop else img for img in vf.read_frame(depth)]
 
-        if vf_lr is not None:
+        if vf_lr is not None and self.method != 'infer':
             # fetch from pre-processed LR files
             vf_lr.seek(index)
             frames_lr = [shrink_to_multiple_scale(img, self.scale)
@@ -381,12 +385,17 @@ class BasicLoader:
         index = np.arange(0, vf.frames - depth + 1)
         np.random.shuffle(index)
         frames = []
+        vf_lr = None
+        if all(scale == 1 for scale in self.scale) and self.method != 'infer':
+            vf_lr = _lr_file_from_hr(vf)
         for i in index[:clips]:
             if self.flow:
                 frames.append(self._vf_gen_flow_img_pair(vf, depth, i))
             else:
                 frames.append(self._vf_gen_lr_hr_pair(vf, vf_lr, depth, i))
         vf.reopen()  # necessary, rewind the read pointer
+        if vf_lr is not None:
+            vf_lr.reopen()
         return frames
 
     def _generate_crop_grid(self, frames, size, shuffle=False):
