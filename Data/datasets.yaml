@@ -11,9 +11,12 @@
 # Add root dir to dataset
 # In current version, Root only affects members in "Path" and "Path_Tracked"
 Root:
-  /mnt/data/datasets/
+#  /mnt/data/datasets/
 #  c:/work/datasets
+  /home/rzumer/data
 Path:
+  DERF: DERF/*.yuv
+  DERF-Val: DERF/val/*.yuv
   BSD100: BSD100_SR/image_SRF_2/*HR.*
   BSD500-Train: BSR_bsds500/BSR/BSDS500/data/images/train/*.jpg
   BSD500-Val: BSR_bsds500/BSR/BSDS500/data/images/val/*.jpg
@@ -21,6 +24,7 @@ Path:
   IMAGENET: Imagenet/20180122/*.jpg
   GOPRO-Train: GOPRO_Large_all/train
   MCL-V: MCL-V/train/*.yuv
+  MCL-V-CIF: MCL-V/train/cif/*.yuv
   WATERLOO: exploration_database_and_code/pristine_images/
   DIV2K-Train: DIV2K/DIV2K_train_HR/
   DIV2K-Val: DIV2K/DIV2K_valid_HR/
@@ -51,6 +55,15 @@ Dataset:
     val: []
     test: []
 
+  DERF:
+    train: DERF
+    val: DERF-Val
+    param:
+      mode: YV12
+      parser: raw
+      width: 352
+      height: 288
+
   BSD:  # Combined BSD100 and BSD500 data
     train: [BSD100, BSD500-Train]  # collected in array
     val: BSD500-Val                # point as a single set
@@ -80,11 +93,22 @@ Dataset:
     # Note: Root applies to absolute path now!!!
     val: MCL-V/test/*.yuv     # You can still write absolute path patterns like this,
     test: [MCL-V/test/*.yuv]  # or as array like this
+    infer: [MCL-V/infer/*.yuv]
     param:  # For MCL-V is raw data, these param must be specified
       mode: YV12
       parser: raw
       width: 1920
       height: 1080
+
+  MCL-V-CIF:
+    train: MCL-V-CIF
+    test: [MCL-V/train/cif/*.yuv]
+    infer: [MCL-V/train/cif/*.yuv]
+    param:
+      mode: YV12
+      parser: raw
+      width: 352
+      height: 288
 
   GOPRO: # https://github.com/SeungjunNah/DeepDeblur_release
     train: [GOPRO-Train]
