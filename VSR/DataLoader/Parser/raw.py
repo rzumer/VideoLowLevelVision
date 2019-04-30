@@ -4,12 +4,47 @@
 #  Update Date: 2019/4/3 下午5:03
 
 import copy
+import os
+from pathlib import Path
 
 import numpy as np
 
 from . import _logger, parse_index
 from ..VirtualFile import RawFile
-from ...Util.ImageProcess import imresize, shrink_to_multiple_scale
+from ...Util.ImageProcess import imresize, imcompress, shrink_to_multiple_scale
+
+
+def _lr_file_from_hr(vf):
+    #vf_lr = copy.copy(vf)
+    new_path = ''
+    head, tail = os.path.split(vf.path)
+
+    if vf.path.is_file():
+        fname = tail
+        new_path = os.path.join(head, 'lr')
+        new_path = Path(os.path.join(new_path, fname))
+        #vf_lr = RawFile(new_path, 'YV12', (1920, 1080))
+        vf_lr = RawFile(new_path, 'YV12', vf.size)
+        #vf_lr.path = new_path
+        #vf_lr.file = [new_path]
+        #vf_lr.length[new_path.name] = new_path.stat().st_size
+    else:
+        exit(1)
+        '''
+        new_path = os.path.join(head, 'lr')
+        vf_lr.path = Path(new_path)
+        for _file in vf_lr.file:
+            new_path = _file
+            head, tail = os.path.split(_file)
+            if tail != '':
+                fname = head
+                head, tail = os.path.split(head)
+                new_path = os.path.join(head, 'lr')
+                new_path = Path(os.path.join(new_path, fname))
+            vf_lr.length[_file.name] = new_path.stat().st_size
+        '''
+    #bp()
+    return vf_lr
 
 
 class Parser(object):
@@ -46,21 +81,27 @@ class Parser(object):
     self.index = [parse_index(i, n_frames) for i in index]
 
   def __getitem__(self, index):
+    vf_lr = None
+
     if isinstance(index, slice):
       ret = []
       for key, seq in self.index[index]:
         vf = self.file_objects[key]
-        ret += self.gen_frames(copy.deepcopy(vf), seq)
+        if self.scale == 1:
+            vf_lr = _lr_file_from_hr(vf)
+        ret += self.gen_frames(copy.deepcopy(vf), copy.deepcopy(vf_lr), seq)
       return ret
     else:
       key, seq = self.index[index]
       vf = self.file_objects[key]
-      return self.gen_frames(copy.deepcopy(vf), seq)
+      if self.scale == 1:
+          vf_lr = _lr_file_from_hr(vf)
+      return self.gen_frames(copy.deepcopy(vf), copy.deepcopy(vf_lr), seq)
 
   def __len__(self):
     return len(self.index)
 
-  def gen_frames(self, vf, index):
+  def gen_frames(self, vf, vf_lr, index):
     assert isinstance(vf, RawFile)
 
     _logger.debug(f'Prefetching {vf.name} @{index}')
@@ -68,9 +109,18 @@ class Parser(object):
     depth = self.depth
     depth = min(depth, vf.frames)
     vf.seek(index)
+    if vf_lr is not None:
+        vf_lr.reopen()
+        vf_lr.seek(index)
     hr = [shrink_to_multiple_scale(img, self.scale)
           if self.modcrop else img for img in vf.read_frame(depth)]
-    lr = [imresize(img,
+    if vf_lr is not None:
+        lr = [shrink_to_multiple_scale(img, self.scale)
+          if self.modcrop else img for img in vf_lr.read_frame(depth)]
+    elif all(scale == 1 for scale in self.scale):
+        lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
+    else:
+        lr = [imresize(img,
                    np.reciprocal(self.scale, dtype='float32'),
                    resample=self.resample)
           for img in hr]

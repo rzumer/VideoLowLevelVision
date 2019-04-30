@@ -15,6 +15,7 @@ Image processing tools
 
 from pathlib import Path
 
+import io
 import numpy as np
 from PIL import Image
 
@@ -147,7 +148,7 @@ def imcompress(image, quality, mode=None):
     mode = image.mode if not mode else mode
     result = io.BytesIO()
     image.save(result, 'jpeg', quality=quality)
-    return imread(result, mode)
+    return Image.open(result).convert(mode)
 
 
 def shrink_to_multiple_scale(image, scale):
