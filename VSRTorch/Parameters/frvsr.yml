@@ -4,4 +4,4 @@ frvsr:
   channel: 3
   depth: 20
 
-patch_size: 64
+patch_size: 32

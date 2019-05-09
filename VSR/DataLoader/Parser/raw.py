@@ -117,7 +117,7 @@ class Parser(object):
     if vf_lr is not None:
         lr = [shrink_to_multiple_scale(img, self.scale)
           if self.modcrop else img for img in vf_lr.read_frame(depth)]
-    elif all(scale == 1 for scale in self.scale):
+    elif self.scale == 1:
         lr = [imcompress(img, random.randint(10, 60)) for img in frames_hr]
     else:
         lr = [imresize(img,
